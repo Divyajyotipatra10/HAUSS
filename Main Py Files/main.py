@@ -30,7 +30,25 @@ def do_connect():
             print("Attempting to connect....")
             utime.sleep(1)
     print('Connected! Network config:', sta_if.ifconfig())
-    
+
+#Function to disconnect from Wifi
+def disconnect_from_wifi():
+    # Initialize Wi-Fi interface
+    wifi_interface = network.WLAN(network.STA_IF)
+
+    # Disconnect from the Wi-Fi network
+    wifi_interface.disconnect()
+
+    # Give some time for disconnection to complete
+    time.sleep(1)
+
+    # Check if disconnected
+    if not wifi_interface.isconnected():
+        print("Disconnected from Wi-Fi network.")
+    else:
+        print("Failed to disconnect from Wi-Fi network.")
+#End of Disconnected Funtion
+        
 # Default MQTT MQTT_BROKER to connect to
 MQTT_BROKER = "192.168.160.115"
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
@@ -382,8 +400,10 @@ def main():
                     mqttClient.publish(TOPIC5, str(msg1).encode())    
                     print("Program Terminated,ALL VARIABLES HAVE BEEN RESET")
                     print("Disconnecting...")
+                    
                     mqttClient.disconnect()
                     print("Disconnected. Reboot The Device and follow the BLE Process. Fill the same data again")
+                    disconnect_from_wifi()
                     break
                 # Perform action for generating interrupt request
                 # For example: machine.reset()
@@ -406,5 +426,6 @@ if __name__ == "__main__":
     except OSError as e:
         print("Error: " + str(e))
         reset()
+
 
 
