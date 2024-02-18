@@ -212,9 +212,5 @@ while True:
         #print("Pressed for less than 5 seconds")
         start_time = time.ticks_ms()
 # Open the file in write mode, which truncates the file
-
-# File content is now deleted
-
-    #x[len(x)]
     
 
